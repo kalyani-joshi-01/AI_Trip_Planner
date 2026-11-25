@@ -1,16 +1,22 @@
 
 
-from dataclasses import Field
+from dotenv import load_dotenv
 import os
 from typing import Any, Literal, Optional
-from langchain.chat_models import ChatOpenAI 
-from langchain.chat_models import ChatGroq
-from pydantic import BaseModel
+from langchain_openai import ChatOpenAI 
+from langchain_groq import ChatGroq
+from pydantic import BaseModel, Field
+from utils.config_loader import load_config
+
 
 
 class ConfigLoader:
     def __init__(self):
-        pass
+        print(f"Loading config....")
+        self.config = load_config()
+
+    def __getitem__(self, key):
+        return self.config[key]
 
 class ModelLoader(BaseModel):
     model_provider: Literal["groq", "openai"]= "groq"
